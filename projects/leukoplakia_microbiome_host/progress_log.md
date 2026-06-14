@@ -25,3 +25,19 @@ Major KEGG pathways:
 
 Next:
 STRING network analysis
+## STRING Network Analysis
+
+Input genes: 1297
+
+Network statistics:
+
+- Nodes: 1191
+- Edges: 2085
+- Expected edges: 692
+- Average node degree: 3.5
+- Clustering coefficient: 0.357
+- PPI enrichment p-value: <1e-16
+
+Interpretation:
+
+The dysplasia-associated genes form a significantly interconnected biological network with approximately threefold more interactions than expected by chance, suggesting coordinated functional modules involved in early oral malignant transformation.
