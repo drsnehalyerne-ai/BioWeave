@@ -22,13 +22,22 @@ def read_geo_series_matrix(filepath):
             break
 
     if start is None:
-        raise ValueError("Expression matrix not found.")
+        from io import StringIO
 
-    from io import StringIO
+end = None
 
-    expr = pd.read_csv(
-        StringIO("".join(lines[start:])),
-        sep="\t"
-    )
+for i, line in enumerate(lines):
 
-    return expr
+    if line.startswith("!series_matrix_table_end"):
+        end = i
+        break
+
+if end is None:
+    end = len(lines)
+
+expr = pd.read_csv(
+    StringIO("".join(lines[start:end])),
+    sep="\t"
+)
+
+return expr
