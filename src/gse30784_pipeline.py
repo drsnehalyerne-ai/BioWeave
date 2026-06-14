@@ -11,13 +11,21 @@ Project: BioWeave
 import pandas as pd
 import numpy as np
 
+from utils import read_geo_series_matrix
+
 
 def load_expression_matrix(filepath):
     """
     Load GEO series matrix file.
     """
+
     print("Loading expression matrix...")
-    return None
+
+    expr = read_geo_series_matrix(filepath)
+
+    print("Expression matrix shape:", expr.shape)
+
+    return expr
 
 
 def create_metadata():
@@ -64,9 +72,9 @@ def main():
 
     print("BioWeave GSE30784 Pipeline")
 
-    load_expression_matrix(
-        "datasets/GSE30784/GSE30784_series_matrix.txt.gz"
-    )
+    expr = load_expression_matrix(
+    "datasets/GSE30784/GSE30784_series_matrix.txt.gz"
+)
 
     create_metadata()
 
