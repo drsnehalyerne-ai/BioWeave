@@ -1,10 +1,10 @@
 """
 BioWeave Utility Functions
 """
-
+from io import StringIO
 import pandas as pd
 import gzip
-from io import StringIO
+
 
 def read_geo_series_matrix(filepath):
 
