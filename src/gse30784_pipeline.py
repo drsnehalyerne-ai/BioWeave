@@ -1,3 +1,4 @@
+```python
 """
 BioWeave
 
@@ -15,10 +16,6 @@ from data_loader import (
     load_gpl_annotation
 )
 
-from sample_metadata import (
-    build_gse30784_groups
-)
-
 from differential_expression import (
     run_deg
 )
@@ -30,6 +27,15 @@ from annotation import (
 from bridge_genes import (
     find_bridge_genes
 )
+
+# -----------------------------------
+# DATA PATHS
+# -----------------------------------
+
+DATA_DIR = "/content/drive/MyDrive/BioWeave/data"
+
+GSE_FILE = f"{DATA_DIR}/GSE30784_series_matrix.txt.gz"
+GPL_FILE = f"{DATA_DIR}/GPL570.annot.gz"
 
 
 def main():
@@ -43,13 +49,13 @@ def main():
     print("Loading expression matrix...")
 
     expr = read_geo_series_matrix(
-        "GSE30784_series_matrix.txt.gz"
+        GSE_FILE
     )
 
     print("Loading annotation...")
 
     annot = load_gpl_annotation(
-        "GPL570.annot.gz"
+        GPL_FILE
     )
 
     print("Expression shape:", expr.shape)
@@ -63,7 +69,7 @@ def main():
 
     print("Building sample groups...")
 
-    # Placeholder until metadata extraction
+    # Temporary grouping
     control = sample_names[:45]
     dysplasia = sample_names[45:62]
     cancer = sample_names[62:]
@@ -150,3 +156,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
