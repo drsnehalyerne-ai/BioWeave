@@ -8,9 +8,6 @@ from io import StringIO
 
 
 def read_geo_series_matrix(filepath):
-    """
-    Load GEO Series Matrix file into DataFrame
-    """
 
     with gzip.open(filepath, "rt", errors="ignore") as f:
         lines = f.readlines()
@@ -18,7 +15,6 @@ def read_geo_series_matrix(filepath):
     start = None
 
     for i, line in enumerate(lines):
-
         if line.startswith('"ID_REF"'):
             start = i
             break
@@ -32,9 +28,6 @@ def read_geo_series_matrix(filepath):
 
 
 def load_gpl_annotation(filepath):
-    """
-    Load GEO GPL annotation file
-    """
 
     with gzip.open(filepath, "rt", errors="ignore") as f:
         lines = f.readlines()
@@ -42,7 +35,6 @@ def load_gpl_annotation(filepath):
     start = None
 
     for i, line in enumerate(lines):
-
         if line.startswith("ID\t"):
             start = i
             break
