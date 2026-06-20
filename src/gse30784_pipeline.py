@@ -1,90 +1,151 @@
 """
 BioWeave
 
-Pipeline:
-GSE30784 Normal vs Dysplasia Analysis
+End-to-End GSE30784 Pipeline
 
 Author: Snehal Yerne
 Project: BioWeave
 """
 
+import os
 import pandas as pd
-import numpy as np
 
-from utils import read_geo_series_matrix
+from data_loader import (
+    read_geo_series_matrix,
+    load_gpl_annotation
+)
 
+from sample_metadata import (
+    build_gse30784_groups
+)
 
-def load_expression_matrix(filepath):
-    """
-    Load GEO series matrix file.
-    """
+from differential_expression import (
+    run_deg
+)
 
-    print("Loading expression matrix...")
+from annotation import (
+    annotate_deg
+)
 
-    expr = read_geo_series_matrix(filepath)
-
-    print("Expression matrix shape:", expr.shape)
-
-    return expr
-
-
-def create_metadata():
-    """
-    Create sample annotation.
-    """
-    print("Creating metadata...")
-    return None
-
-
-def differential_expression():
-    """
-    Normal vs Dysplasia DEG analysis.
-    """
-    print("Running DEG analysis...")
-    return None
-
-
-def annotate_probes():
-    """
-    Probe-to-gene annotation.
-    """
-    print("Annotating probes...")
-    return None
-
-
-def enrichment_analysis():
-    """
-    GO and KEGG enrichment.
-    """
-    print("Running enrichment...")
-    return None
-
-
-def export_results():
-    """
-    Export BioWeave outputs.
-    """
-    print("Exporting results...")
-    return None
+from bridge_genes import (
+    find_bridge_genes
+)
 
 
 def main():
 
     print("BioWeave GSE30784 Pipeline")
 
-    expr = load_expression_matrix(
-    "datasets/GSE30784/GSE30784_series_matrix.txt.gz"
-)
+    # -------------------------
+    # Load data
+    # -------------------------
 
-    create_metadata()
+    print("Loading expression matrix...")
 
-    differential_expression()
+    expr = read_geo_series_matrix(
+        "GSE30784_series_matrix.txt.gz"
+    )
 
-    annotate_probes()
+    print("Loading annotation...")
 
-    enrichment_analysis()
+    annot = load_gpl_annotation(
+        "GPL570.annot.gz"
+    )
 
-    export_results()
+    print("Expression shape:", expr.shape)
+    print("Annotation shape:", annot.shape)
+
+    # -------------------------
+    # Build sample groups
+    # -------------------------
+
+    sample_names = list(expr.columns[1:])
+
+    print("Building sample groups...")
+
+    # Placeholder until metadata extraction
+    control = sample_names[:45]
+    dysplasia = sample_names[45:62]
+    cancer = sample_names[62:]
+
+    print("Control:", len(control))
+    print("Dysplasia:", len(dysplasia))
+    print("Cancer:", len(cancer))
+
+    # -------------------------
+    # Prepare expression matrix
+    # -------------------------
+
+    expr_num = expr.set_index("ID_REF")
+    expr_num = expr_num.astype(float)
+
+    # -------------------------
+    # DEG Analysis
+    # -------------------------
+
+    print("Running Control vs Dysplasia DEG...")
+
+    dys_deg = run_deg(
+        expr_num,
+        control,
+        dysplasia
+    )
+
+    dys_deg = dys_deg[
+        (dys_deg["adj.P.Val"] < 0.05)
+        &
+        (abs(dys_deg["logFC"]) > 1)
+    ]
+
+    print("Significant DEGs:", len(dys_deg))
+
+    # -------------------------
+    # Annotation
+    # -------------------------
+
+    print("Annotating genes...")
+
+    dys_deg_annot = annotate_deg(
+        dys_deg,
+        annot
+    )
+
+    # -------------------------
+    # Bridge Genes
+    # -------------------------
+
+    print("Finding bridge genes...")
+
+    bridge = find_bridge_genes(
+        dys_deg_annot,
+        dys_deg_annot
+    )
+
+    print("Bridge genes:", len(bridge))
+
+    # -------------------------
+    # Export
+    # -------------------------
+
+    os.makedirs(
+        "results",
+        exist_ok=True
+    )
+
+    dys_deg_annot.to_csv(
+        "results/control_vs_dysplasia_deg.csv",
+        index=False
+    )
+
+    pd.DataFrame(
+        bridge,
+        columns=["Gene Symbol"]
+    ).to_csv(
+        "results/bridge_genes.csv",
+        index=False
+    )
+
+    print("Pipeline completed successfully")
 
 
 if __name__ == "__main__":
