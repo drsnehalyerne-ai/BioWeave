@@ -152,9 +152,5 @@ def main():
     )
 
     print("Pipeline completed successfully")
-
-
 if __name__ == "__main__":
     main()
-    main()
-```
