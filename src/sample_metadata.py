@@ -3,50 +3,60 @@ import gzip
 
 def extract_sample_status(filepath):
     """
-    Parse GSE30784 series matrix header and extract
-    sample status for each GSM accession.
+    Extract true sample status from GEO series matrix.
 
-    Returns
-    -------
-    sample_status : dict
-        {sample_name: "control"/"dysplasia"/"cancer"}
+    Looks through all !Sample_characteristics_ch1 lines and finds
+    the one containing status labels like:
+    - status: control
+    - status: dysplasia
+    - status: cancer
     """
+
+    characteristic_lines = []
 
     with gzip.open(filepath, "rt", errors="ignore") as f:
         for line in f:
             if line.startswith("!Sample_characteristics_ch1"):
-                parts = line.strip().split("\t")
+                parts = line.strip().split("\t")[1:]
+                cleaned = [
+                    x.replace('"', '').strip().lower()
+                    for x in parts
+                ]
+                characteristic_lines.append(cleaned)
 
-                # first column is the metadata label itself
-                raw_status = parts[1:]
+    if not characteristic_lines:
+        raise ValueError("No !Sample_characteristics_ch1 lines found in GEO series matrix")
 
-                sample_status = {}
-                for i, status in enumerate(raw_status):
-                    status = status.replace('"', '').strip().lower()
-                    # status looks like: status: cancer
-                    status = status.replace("status:", "").strip()
-                    sample_status[i] = status
+    # Find the line that actually contains status labels
+    status_line = None
+    for row in characteristic_lines:
+        joined = " | ".join(row)
+        if ("control" in joined) or ("dysplasia" in joined) or ("cancer" in joined):
+            status_line = row
+            break
 
-                return sample_status
+    if status_line is None:
+        raise ValueError("Could not find a status-containing characteristics line")
 
-    raise ValueError("Could not find !Sample_characteristics_ch1 in series matrix")
+    sample_status = {}
+    for i, value in enumerate(status_line):
+        value = value.replace("status:", "").strip().lower()
+
+        if "control" in value:
+            sample_status[i] = "control"
+        elif "dysplasia" in value:
+            sample_status[i] = "dysplasia"
+        elif "cancer" in value:
+            sample_status[i] = "cancer"
+        else:
+            sample_status[i] = "unknown"
+
+    return sample_status
 
 
 def build_gse30784_groups(sample_names, filepath):
     """
-    Build control, dysplasia, and cancer sample lists
-    using true GEO metadata rather than positional slicing.
-
-    Parameters
-    ----------
-    sample_names : list
-        GSM sample names in the expression matrix
-    filepath : str
-        Path to GSE30784_series_matrix.txt.gz
-
-    Returns
-    -------
-    control, dysplasia, cancer : lists of GSM names
+    Build control, dysplasia, and cancer sample groups from GEO metadata.
     """
 
     status_by_index = extract_sample_status(filepath)
@@ -56,7 +66,7 @@ def build_gse30784_groups(sample_names, filepath):
     cancer = []
 
     for i, gsm in enumerate(sample_names):
-        status = status_by_index[i]
+        status = status_by_index.get(i, "unknown")
 
         if status == "control":
             control.append(gsm)
