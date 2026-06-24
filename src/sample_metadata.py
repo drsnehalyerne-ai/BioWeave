@@ -1,3 +1,4 @@
+
 import gzip
 
 
@@ -27,7 +28,6 @@ def extract_sample_status(filepath):
     if not characteristic_lines:
         raise ValueError("No !Sample_characteristics_ch1 lines found in GEO series matrix")
 
-    # Find the line that actually contains status labels
     status_line = None
     for row in characteristic_lines:
         joined = " | ".join(row)
@@ -76,3 +76,4 @@ def build_gse30784_groups(sample_names, filepath):
             cancer.append(gsm)
 
     return control, dysplasia, cancer
+
