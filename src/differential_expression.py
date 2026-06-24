@@ -1,4 +1,3 @@
-deg_code = '''
 import numpy as np
 import pandas as pd
 from scipy.stats import ttest_ind
@@ -20,12 +19,12 @@ def run_deg(expr_num, group1_samples, group2_samples):
 
         group1 = pd.to_numeric(
             expr_num.loc[probe, group1_samples],
-            errors="coerce"
+            errors='coerce'
         ).dropna()
 
         group2 = pd.to_numeric(
             expr_num.loc[probe, group2_samples],
-            errors="coerce"
+            errors='coerce'
         ).dropna()
 
         # skip probes with too few valid observations
@@ -37,7 +36,7 @@ def run_deg(expr_num, group1_samples, group2_samples):
             group2,
             group1,
             equal_var=False,
-            nan_policy="omit"
+            nan_policy='omit'
         )
 
         logfc = group2.mean() - group1.mean()
@@ -46,25 +45,20 @@ def run_deg(expr_num, group1_samples, group2_samples):
 
     deg = pd.DataFrame(
         results,
-        columns=["Probe", "logFC", "P.Value"]
+        columns=['Probe', 'logFC', 'P.Value']
     )
 
     # initialize adjusted p-values
-    deg["adj.P.Val"] = np.nan
+    deg['adj.P.Val'] = np.nan
 
     # only apply FDR correction to non-null p-values
-    valid_mask = deg["P.Value"].notna()
+    valid_mask = deg['P.Value'].notna()
 
     if valid_mask.sum() > 0:
-        deg.loc[valid_mask, "adj.P.Val"] = multipletests(
-            deg.loc[valid_mask, "P.Value"],
-            method="fdr_bh"
+        deg.loc[valid_mask, 'adj.P.Val'] = multipletests(
+            deg.loc[valid_mask, 'P.Value'],
+            method='fdr_bh'
         )[1]
 
-    return deg.sort_values("adj.P.Val", na_position="last")
-'''
+    return deg.sort_values('adj.P.Val', na_position='last')
 
-with open("/content/BioWeave/src/differential_expression.py", "w") as f:
-    f.write(deg_code)
-
-print("differential_expression.py overwritten successfully")
