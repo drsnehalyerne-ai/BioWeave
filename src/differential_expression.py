@@ -1,3 +1,4 @@
+deg_code = '''
 import numpy as np
 import pandas as pd
 from scipy.stats import ttest_ind
@@ -9,7 +10,7 @@ def run_deg(expr_num, group1_samples, group2_samples):
     Differential expression analysis:
     group2 vs group1
 
-    Returns a dataframe with:
+    Returns dataframe with:
     Probe, logFC, P.Value, adj.P.Val
     """
 
@@ -27,7 +28,7 @@ def run_deg(expr_num, group1_samples, group2_samples):
             errors="coerce"
         ).dropna()
 
-        # Skip probes with too few observations
+        # skip probes with too few valid observations
         if len(group1) < 2 or len(group2) < 2:
             results.append([probe, np.nan, np.nan])
             continue
@@ -48,10 +49,10 @@ def run_deg(expr_num, group1_samples, group2_samples):
         columns=["Probe", "logFC", "P.Value"]
     )
 
-    # Initialize adjusted p-values as NaN
+    # initialize adjusted p-values
     deg["adj.P.Val"] = np.nan
 
-    # Only run FDR on valid p-values
+    # only apply FDR correction to non-null p-values
     valid_mask = deg["P.Value"].notna()
 
     if valid_mask.sum() > 0:
@@ -61,3 +62,9 @@ def run_deg(expr_num, group1_samples, group2_samples):
         )[1]
 
     return deg.sort_values("adj.P.Val", na_position="last")
+'''
+
+with open("/content/BioWeave/src/differential_expression.py", "w") as f:
+    f.write(deg_code)
+
+print("differential_expression.py overwritten successfully")
