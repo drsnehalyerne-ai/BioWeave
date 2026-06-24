@@ -1,3 +1,4 @@
+```python
 """
 BioWeave
 
@@ -89,6 +90,11 @@ def main():
         dysplasia
     )
 
+    print("Raw DEG rows:", len(dys_deg))
+    print("Min adj.P.Val:", dys_deg["adj.P.Val"].min())
+    print("Top 10 raw DEGs:")
+    print(dys_deg.head(10))
+
     dys_deg = dys_deg[
         (dys_deg["adj.P.Val"] < 0.05) &
         (abs(dys_deg["logFC"]) > 1)
@@ -100,7 +106,10 @@ def main():
     # Annotation
     # -------------------------
     print("Annotating genes...")
-    dys_deg_annot = annotate_deg(dys_deg, annot)
+    dys_deg_annot = annotate_deg(
+        dys_deg,
+        annot
+    )
 
     # -------------------------
     # Bridge Genes
