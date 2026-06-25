@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software or adapt its stage-wise framework, please cite it as below."
+authors:
+  - family-names: "Yerne"
+    given-names: "Snehal"
+title: "BioWeave v2: A Progression-Aware Transcriptomics Pipeline for Oral Carcinogenesis"
+version: "2.0.0"
+date-released: "2026-06-25"
+url: "https://github.com/drsnehalyerne-ai/BioWeave"
