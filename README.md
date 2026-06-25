@@ -18,22 +18,49 @@ Oral carcinogenesis is a multi-step biological process involving progressive tra
 2. **Dysplasia vs. Cancer** differential expression (capturing malignant transformation events)
 3. **Bridge-Gene Discovery** (identifying overlapping markers active across both sequential transitions)
 
-This architecture allows researchers to systematically isolate stage-specific molecular shifts alongside persistent progression-associated genes.
-
----
-
-## What’s New in BioWeave v2
-
-BioWeave v2 represents a major structural upgrade from the original exploratory framework:
-
-* **Automated Metadata-Driven Grouping**: Reconstructs clinical cohorts (**Control**, **Dysplasia**, and **Cancer**) dynamically from GEO series-matrix metadata parsing rather than relying on hard-coded sample indices.
-* **Two-Stage Differential Expression Workflow**: Segregates upstream premalignant shifts (`Control → Dysplasia`) from downstream malignant conversion (`Dysplasia → Cancer`).
-* **Bridge-Gene Identification Module**: Implements automated intersection logic to uncover overlapping transcriptomic shifts across both disease transitions.
-* **Standardized File Export**: Systematizes outputs into comparison-specific Differential Expression Gene (DEG) tables, a standalone bridge-gene matrix, and a reproducible run summary log.
-* **Modular Pipeline Architecture**: Transitioned the code base into an structured, executable script system designed for scalability.
-
 ---
 
 ## Current BioWeave v2 Workflow
 
-The workflow executes sequentially through the following computational layers:
+### Execution Steps
+1. **Parse GEO Series Matrix**: Extracts the expression intensity data from `GSE30784_series_matrix.txt.gz`.
+2. **Parse GPL Platform Metadata**: Extracts and indexes probe annotations from `GPL570.annot.gz`.
+3. **Cohort Reconstruction**: Dynamically assigns samples to **Control**, **Dysplasia**, or **Cancer** cohorts using metadata string matching.
+4. **Stage-Wise Differential Expression**: Executes independent statistical testing for `Control vs. Dysplasia` and `Dysplasia vs. Cancer`.
+5. **Bridge-Gene Intersection**: Intersects the two discrete annotated DEG lists to isolate cross-stage progression markers.
+
+---
+
+## Current GSE30784 Results
+
+* **Control:** 45 samples
+* **Dysplasia:** 17 samples
+* **Cancer (OSCC):** 167 samples
+
+### Differential Expression Outputs
+* **Control vs. Dysplasia**: 1,818 significant probe-level DEGs (1,731 annotated genes)
+* **Dysplasia vs. Cancer**: 1,196 significant probe-level DEGs (1,133 annotated genes)
+* **Bridge Genes**: **247 distinct bridge genes** shared across both transitions.
+
+---
+
+## Repository Structure
+
+```text
+BioWeave/
+│
+├── README.md
+├── requirements.txt
+│
+├── src/
+│   └── gse30784_pipeline.py
+│
+├── data/
+│   ├── GSE30784_series_matrix.txt.gz
+│   └── GPL570.annot.gz
+│
+└── results/
+    ├── control_vs_dysplasia_deg.csv
+    ├── dysplasia_vs_cancer_deg.csv
+    ├── bridge_genes.csv
+    └── run_summary.txt
