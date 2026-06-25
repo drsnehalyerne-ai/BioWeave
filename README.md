@@ -178,7 +178,7 @@ BioWeave/
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/BioWeave.git
+git clone https://github.com/drsnehalyerne-ai/BioWeave.git
 cd BioWeave
 ```
 
