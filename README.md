@@ -1,8 +1,8 @@
-# BioWeave v2.0
+# BioWeave v2
 
 ### Progression-aware transcriptomics pipeline for oral carcinogenesis
 
-**BioWeave** is a computational transcriptomics framework for studying disease progression from public gene-expression datasets. **BioWeave v2.0** introduces a stage-wise oral carcinogenesis analysis workflow built around **GSE30784**, enabling metadata-driven sample grouping, differential expression analysis across key disease transitions, and bridge-gene discovery across premalignant and malignant stages.
+**BioWeave** is a computational transcriptomics framework for studying disease progression from public gene-expression datasets. **BioWeave v2** introduces a stage-wise oral carcinogenesis analysis workflow built around **GSE30784**, enabling metadata-driven sample grouping, differential expression analysis across key disease transitions, and bridge-gene discovery across premalignant and malignant stages.
 
 This release upgrades BioWeave from an exploratory transcriptomics scaffold into a **progression-aware analysis pipeline** for modeling oral cancer development as a molecular continuum from **control epithelium → dysplasia → carcinoma**.
 
@@ -12,7 +12,7 @@ This release upgrades BioWeave from an exploratory transcriptomics scaffold into
 
 Oral carcinogenesis is not a single binary event but a staged biological process involving progressive transcriptomic rewiring from normal mucosa to dysplastic lesions and eventually invasive carcinoma. Most public transcriptomic analyses collapse this trajectory into a single case–control comparison, which can obscure genes involved in **early premalignant transition**, **late malignant transformation**, and **shared progression programs**.
 
-**BioWeave v2.0** addresses this by implementing a stage-wise workflow on the GEO dataset **GSE30784**, with three core analytical layers:
+**BioWeave v2** addresses this by implementing a stage-wise workflow on the GEO dataset **GSE30784**, with three core analytical layers:
 
 1. **Control vs Dysplasia** differential expression
 2. **Dysplasia vs Cancer** differential expression
@@ -22,9 +22,9 @@ This structure allows BioWeave to capture both **stage-specific molecular change
 
 ---
 
-## What’s New in BioWeave v2.0
+## What’s New in BioWeave v2
 
-BioWeave v2.0 is a major upgrade from the original BioWeave framework. Key additions in this release include:
+BioWeave v2 is a major upgrade from the original BioWeave framework. Key additions in this release include:
 
 * **Metadata-driven sample grouping from GEO**
 
@@ -51,7 +51,7 @@ BioWeave v2.0 is a major upgrade from the original BioWeave framework. Key addit
 
 ---
 
-## Current BioWeave v2.0 Workflow
+## Current BioWeave v2 Workflow
 
 The current release is built around **GSE30784**, a public oral carcinogenesis transcriptomic dataset containing control, dysplasia, and oral squamous cell carcinoma samples.
 
@@ -109,7 +109,7 @@ The current release is built around **GSE30784**, a public oral carcinogenesis t
 
 ## Current GSE30784 Results
 
-Using the current BioWeave v2.0 pipeline on **GSE30784**, the following outputs were obtained:
+Using the current BioWeave v2 pipeline on **GSE30784**, the following outputs were obtained:
 
 ### Sample groups
 
@@ -194,7 +194,7 @@ If you plan to extend the enrichment or network modules, additional packages may
 
 ## Required Input Files
 
-BioWeave v2.0 currently expects the following input files:
+BioWeave v2 currently expects the following input files:
 
 * **GEO series matrix**
 
@@ -233,7 +233,7 @@ python src/gse30784_pipeline.py
 
 ## Output Files
 
-BioWeave v2.0 currently generates the following outputs:
+BioWeave v2 currently generates the following outputs:
 
 ### 1. `control_vs_dysplasia_deg.csv`
 
@@ -260,7 +260,7 @@ A summary of:
 
 ## Biological Rationale
 
-The central biological idea behind BioWeave v2.0 is that oral cancer should be modeled as a **progressive molecular trajectory**, not simply as a terminal tumor phenotype.
+The central biological idea behind BioWeave v2 is that oral cancer should be modeled as a **progressive molecular trajectory**, not simply as a terminal tumor phenotype.
 
 ### Why use stage-wise comparisons?
 
@@ -300,7 +300,7 @@ This structure makes BioWeave particularly useful for:
 
 ## Current Limitations
 
-BioWeave v2.0 is a substantial upgrade, but it is still an **early research-code release** rather than a fully mature software package. Current limitations include:
+BioWeave v2 is a substantial upgrade, but it is still an **early research-code release** rather than a fully mature software package. Current limitations include:
 
 * DEG outputs are still largely **probe-level / annotation-attached**, not fully collapsed to a clean gene-level representation
 * enrichment workflows are not yet fully integrated into the main progression pipeline
@@ -313,7 +313,7 @@ These limitations are part of the planned roadmap for future versions.
 
 ## Roadmap
 
-### Planned upgrades for BioWeave v2.x / v3
+### Planned upgrades for BioWeave v3
 
 * **Gene-level collapsing of probe-level DEG outputs**
 * **GO / KEGG enrichment integration**
@@ -347,7 +347,7 @@ First progression-aware oral carcinogenesis analysis engine:
 If you use BioWeave in academic work, please cite the repository release and acknowledge the original GEO dataset used in the workflow.
 
 **Current BioWeave release:**
-**BioWeave v2.0** — progression-aware transcriptomics pipeline for oral carcinogenesis
+**BioWeave v2** — progression-aware transcriptomics pipeline for oral carcinogenesis
 
 You may later replace this section with a formal citation once the repository is archived on Zenodo or linked to a manuscript.
 
@@ -356,7 +356,7 @@ You may later replace this section with a formal citation once the repository is
 ## Author
 
 **Dr. Snehal Yerne**
-Department of Oral and Maxillofacial Pathology
+Department of Oral and Maxillofacial Pathology and Oral Microbiology
 Swargiya Dadasaheb Kalmegh Smruti Dental College and Hospital
 Nagpur, Maharashtra, India
 
@@ -379,6 +379,6 @@ and would like to discuss collaborations, benchmarking, or future extensions of 
 
 ---
 
-## BioWeave v2.0 in One Line
+## BioWeave v2 in One Line
 
-**BioWeave v2.0 transforms oral carcinogenesis transcriptomics from a single case–control analysis into a progression-aware workflow spanning control epithelium, dysplasia, and carcinoma, with bridge-gene discovery across disease transitions.**
+**BioWeave v2 transforms oral carcinogenesis transcriptomics from a single case–control analysis into a progression-aware workflow spanning control epithelium, dysplasia, and carcinoma, with bridge-gene discovery across disease transitions.**
