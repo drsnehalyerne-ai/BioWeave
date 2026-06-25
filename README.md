@@ -28,6 +28,7 @@ Oral carcinogenesis is a multi-step biological process involving progressive tra
 3. **Cohort Reconstruction**: Dynamically assigns samples to **Control**, **Dysplasia**, or **Cancer** cohorts using metadata string matching.
 4. **Stage-Wise Differential Expression**: Executes independent statistical testing for `Control vs. Dysplasia` and `Dysplasia vs. Cancer`.
 5. **Bridge-Gene Intersection**: Intersects the two discrete annotated DEG lists to isolate cross-stage progression markers.
+6. **Functional Enrichment Analysis**: Maps bridge genes to key physiological and molecular pathways via KEGG and GO terms.
 
 ---
 
@@ -37,10 +38,11 @@ Oral carcinogenesis is a multi-step biological process involving progressive tra
 * **Dysplasia:** 17 samples
 * **Cancer (OSCC):** 167 samples
 
-### Differential Expression Outputs
+### Pipeline Outputs
 * **Control vs. Dysplasia**: 1,818 significant probe-level DEGs (1,731 annotated genes)
 * **Dysplasia vs. Cancer**: 1,196 significant probe-level DEGs (1,133 annotated genes)
 * **Bridge Genes**: **247 distinct bridge genes** shared across both transitions.
+* **Downstream Biological Insights**: Safely captures crucial oncogenic signatures including ECM-receptor interactions, Focal Adhesion networks, and PI3K-Akt signaling cascades.
 
 ---
 
@@ -53,25 +55,14 @@ BioWeave/
 ├── requirements.txt
 │
 ├── src/
-│   └── gse30784_pipeline.py
+│   ├── gse30784_pipeline.py
+│   └── results/
+│       ├── control_vs_dysplasia_deg.csv
+│       ├── dysplasia_vs_cancer_deg.csv
+│       ├── bridge_genes.csv
+│       ├── enrichment_kegg_sig.csv
+│       └── enrichment_go_bp_sig.csv
 │
-├── data/
-│   ├── GSE30784_series_matrix.txt.gz
-│   └── GPL570.annot.gz
-│
-└── results/
-    ├── control_vs_dysplasia_deg.csv
-    ├── dysplasia_vs_cancer_deg.csv
-    ├── bridge_genes.csv
-    └── run_summary.txt
-
----
-
-## Citation
-
-If you use BioWeave v2 or adapt its stage-wise framework for your research, please cite this repository:
-
-* **Direct Link:** https://github.com/drsnehalyerne-ai/BioWeave
-
-```text
-Yerne, S. (2026). BioWeave v2: A Progression-Aware Transcriptomics Pipeline for Oral Carcinogenesis. GitHub Repository: [https://github.com/drsnehalyerne-ai/BioWeave](https://github.com/drsnehalyerne-ai/BioWeave)
+└── data/
+    ├── GSE30784_series_matrix.txt.gz
+    └── GPL570.annot.gz
