@@ -64,3 +64,11 @@ BioWeave/
     ├── dysplasia_vs_cancer_deg.csv
     ├── bridge_genes.csv
     └── run_summary.txt
+---
+
+## Citation
+
+If you use BioWeave v2 or adapt its stage-wise framework for your research, please cite this repository:
+
+```text
+Yerne, S. (2026). BioWeave v2: A Progression-Aware Transcriptomics Pipeline for Oral Carcinogenesis. GitHub Repository: [https://github.com/drsnehalyerne-ai/BioWeave](https://github.com/drsnehalyerne-ai/BioWeave)
