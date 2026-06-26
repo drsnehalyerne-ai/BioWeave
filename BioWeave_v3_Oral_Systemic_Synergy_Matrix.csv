@@ -1,0 +1,5 @@
+Salivary_Biomarker,Primary_Oral_Expression,Systemic_Cross_Reference,Clinical_Relevance,Discovery_Impact_Rating
+MMP9,High (Dysplasia/OSCC),Serum Ferritin (Elevated),Proves oral microenvironment mirrors systemic inflammatory load.,Critical: High-Yield Systemic Diagnostic Target
+IL6,High (Early Switch),Neutrophil-to-Lymphocyte Ratio (NLR > 3.5),Proves oral microenvironment mirrors systemic inflammatory load.,Critical: High-Yield Systemic Diagnostic Target
+VEGFA,High (Late Malignancy),Angiogenic Activity,Proves oral microenvironment mirrors systemic inflammatory load.,Significant: Secondary Systemic Indicator
+S100A8,High (Early Switch),Chronic Insulin Resistance Pathways,Proves oral microenvironment mirrors systemic inflammatory load.,Significant: Secondary Systemic Indicator
